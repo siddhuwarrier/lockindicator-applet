@@ -3,3 +3,7 @@ src/applet/Constants.py
 Makefile
 configure
 img/*.png
+/configure
+/Makefile
+/setup.py
+/Makefile
