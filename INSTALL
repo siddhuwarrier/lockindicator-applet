@@ -37,3 +37,10 @@ xset q | grep LED
 in a terminal, and looking at the result.
 
 The Makefile uses distutils (and a wee bit of setuptools) in the background.
+
+Make options
+=====================
+1. install: installs the program. You  may need root permissions depending on
+where you're installing the program to.
+2. uninstall: uninstalls the program.
+3. clean: cleans up the source folder.
