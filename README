@@ -1,0 +1,20 @@
+The lockindicator-applet is a GNOME applet which displays a notification when 
+the Caps and Num Lock keys are on. Right now, it doesn't do it for the Num Lock
+keys; all I need is to draw a not-too-naff icon for it.
+
+The lockindicator-applet uses the custom typeutils and xkb modules (available
+separately as well) and the python-keybinder module.
+ 
+
+REQUIREMENTS
+-------------------------------------------------------------------------------
+1. Python version >= 2.6
+2. python-setuptools
+3. doxygen (to produce documentation)
+4. python-keybinder
+
+WHAT DOES lockindicator-applet PRODUCE
+-------------------------------------------------------------------------------
+1. Python binaries in /usr/local/bin/ (by default).
+2. Libraries in /usr//local/lib/pythonX.y/dist-packages/ (by default).
+2. Doxygenated documentation in /usr/share/doc/lockindicator-applet (refman.pdf)

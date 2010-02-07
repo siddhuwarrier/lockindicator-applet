@@ -1,0 +1,39 @@
+Installation Instructions
+*************************
+
+Copyright (C) 1994, 1995, 1996, 1999, 2000, 2001, 2002, 2004, 2005,
+2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+
+   This file is free documentation; the Free Software Foundation gives
+unlimited permission to copy, distribute and modify it.
+
+Basic installation
+=====================
+To install lockindicator-applet into /usr/lib/python2.6/site-packages/, please type:
+
+./configure
+make
+make install
+
+The configure file has several options that might be useful. These include:
+
+1. --enable-deb-install: Installing on Ubuntu 9.04+: Versions of Ubuntu greater 
+than 9.04 install Python programs automatically into /usr/local, and not /usr.
+If the user forces the install into /usr, the support packages are installed 
+into /usr/lib/python/site-packages, and not /usr/lib/python/dist-packages. The
+former is not in the PYTHONPATH. This is a problem for GNOME applications as 
+exporting PYTHONPATH in bash will not work! So the --enable-deb-install is used
+to force the package to be installed into dist-packages/ and not site-packages.
+
+2. --prefix: Specify the prefix to install the program to. By default, this is
+/usr/local. Please refer to note 1 above about potential issues involved in in-
+-stalling it into /usr/.
+
+3. --with-capslock-mask/with-numlock-mask: The xkb library used to determine
+ whether the Caps and Num Lock keys are enabled needs to know the masks set by 
+Caps and Num Lock keys. While I have verified that the values set by these keys
+they may be different on your system. This can be done by typing 
+xset q | grep LED
+in a terminal, and looking at the result.
+
+The Makefile uses distutils (and a wee bit of setuptools) in the background.
