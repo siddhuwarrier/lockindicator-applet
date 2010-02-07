@@ -22,7 +22,17 @@ except VersionConflict as verConfictErr:
     print "Please download and install the required version.\nInstall failed."
     sys.exit(-1)
 
-#install the python-xkb library
+#problem is that ubuntu goes and installs keybinder in /usr/lib/pymodules. So it is
+#better to use this than to use require, as require will complain keybinder isn't there
+#even if it is actually there!
+try:
+	import keybinder
+except:
+	print "Python-keybinder not found. Please install it.\nYou can do so on Ubuntu by\
+	typing sudo apt-get install python-keybinder"
+	sys.exit(-1)
+
+#install the lockindicator-applet program
 setup(
       name = 'lockindicator-applet',
       version = "@VERSION@",

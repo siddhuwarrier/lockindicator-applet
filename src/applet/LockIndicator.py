@@ -34,7 +34,7 @@ import gtk
 import keybinder
 import pynotify
 from xkb import XkbWrapper
-from Constants import CAPS_LOCK_MASK, INSTALL_PREFIX
+from Constants import *
 
 __all__ = ['LockIndicator']
 
@@ -48,23 +48,31 @@ class LockIndicator:
     # 
     # @date 03/02/2010
     def __init__(self, applet = None, iid = None):
+        self.mask = 0x00 #the original mask. Neither caps nor num lock is on.
         self.applet = applet
+        self.appletContainer = gtk.Table(1,2, True)
         #self.applet.connect("destroy", self.cleanup)
         #Add an indicator in, and add it to the applet
         #TODO Have the icon resize with panel size changes.
-        self.lockIndicatorIcon = gtk.Image()
-        self.applet.add(self.lockIndicatorIcon)
+        self.capsLockIndicatorIcon = gtk.Image()
+        self.appletContainer.attach(self.capsLockIndicatorIcon,0,1,0,1)
+        
+        #set up the num lock icon
+        self.numLockIndicatorIcon = gtk.Image()
+        self.numLockIndicatorIcon.hide()        
+        self.appletContainer.attach(self.numLockIndicatorIcon, 1,2,0,1)
+        
+        self.applet.add(self.appletContainer)
         self.applet.show_all()        
         
         #connect the Caps and Num Lock key to a class method
-        keybinder.bind("Caps_Lock", self.capsLockPressed)
-        #keybinder.bind("Num_Lock", self.capsLockPressed)
+        keybinder.bind("Caps_Lock", self.lockPressed)
+        keybinder.bind("Num_Lock", self.lockPressed)
         
         #create a notifier to display info.
-        #we shall use two separate notifiers; one each for the caps and num lock keys. 
+        #we shall use one notifier because Ubuntu's notification system sucks.         
         pynotify.init("lockindicator-applet")
-        self.capsLockNotifier = pynotify.Notification("Caps Lock ON", "Your Caps Lock key is on.")
-        #TODO Add numLockNotifier. My laptop kb doesn't have NumLock, so I can't test it.
+        self.lockNotifier = pynotify.Notification("None", "None") #random values.
         
         #set up the XKB Wrapper and get the display info
         self.xkbWrapper = XkbWrapper()
@@ -76,23 +84,74 @@ class LockIndicator:
         self.displayHandle = displayInfo['display_handle']
         self.deviceSpec = self.xkbWrapper.constants_xkb['XkbUseCoreKbd']
         
-        #execute capsLockPressed so as to reset everything.
-        self.capsLockPressed()
-
+        #get the first starting state. Don't bother notification icons.
+        self.mask = self.xkbWrapper.getIndicatorStates(self.displayHandle, self.deviceSpec).value
+        if self.mask & CAPS_LOCK_MASK:
+            self.capsLockIndicatorIcon.set_from_file("%s/share/lockindicator-applet/CapsLockIndicator-ON.png"
+                                                         %INSTALL_PREFIX)
+            self.capsLockIndicatorIcon.show()
+        else:
+            self.capsLockIndicatorIcon.set_from_file("%s/share/lockindicator-applet/CapsLockIndicator-OFF.png"
+                                                         %INSTALL_PREFIX)
+            self.capsLockIndicatorIcon.show()
+        
+        #do the same for num lock            
+        if self.mask & NUM_LOCK_MASK:
+            self.numLockIndicatorIcon.set_from_file("%s/share/lockindicator-applet/NumLockIndicator.png"
+                                                    %INSTALL_PREFIX)
+            self.numLockIndicatorIcon.show()
+            
     ## @brief listener method called by keybinder when caps lock key pressed 
     # 
     # @date 03/02/2010            
-    def capsLockPressed(self):
+    def lockPressed(self):
         mask = self.xkbWrapper.getIndicatorStates(self.displayHandle, self.deviceSpec).value
-        #use bitwise arithmetic to check if the Caps Lock key is on.
-        if mask & CAPS_LOCK_MASK:
-            print "%s/share/lockindicator-applet/CapsLockIndicator-ON.png"%INSTALL_PREFIX
-            self.lockIndicatorIcon.set_from_file("%s/share/lockindicator-applet/CapsLockIndicator-ON.png"%INSTALL_PREFIX)            
-            self.lockIndicatorIcon.show()
-            self.capsLockNotifier.update("Caps Lock ON", "Your Caps Lock key is on.")
-            self.capsLockNotifier.show()
-        else:
-            self.lockIndicatorIcon.set_from_file("%s/share/lockindicator-applet/CapsLockIndicator-OFF.png"%INSTALL_PREFIX)
-            self.capsLockNotifier.update("Caps Lock OFF", "Your Caps Lock key is off.")
-            self.capsLockNotifier.show()
+        bitChanged = mask ^ self.mask #find out which bit has changed since the last execution
+        
+        if bitChanged & CAPS_LOCK_MASK:
+            if mask & CAPS_LOCK_MASK:
+                self.capsLockIndicatorIcon.set_from_file("%s/share/lockindicator-applet/CapsLockIndicator-ON.png"
+                                                         %INSTALL_PREFIX)
+                self.capsLockIndicatorIcon.show()
+                #now check the num lock state to know the relative positions of num and caps.
+                if mask & NUM_LOCK_MASK:
+                    self.lockNotifier.update("Caps Lock ON, Num Lock ON", 
+                                                 "Your Caps Lock key was turned on.")
+                else:
+                    self.lockNotifier.update("Caps Lock ON, Num Lock OFF", 
+                                                 "Your Caps Lock key was turned on.")
+            else:
+                self.capsLockIndicatorIcon.set_from_file("%s/share/lockindicator-applet/CapsLockIndicator-OFF.png"
+                                                         %INSTALL_PREFIX)
+                self.capsLockIndicatorIcon.show()
+                #now check the num lock state to display whether num lock is on.
+                if mask & NUM_LOCK_MASK:
+                    self.lockNotifier.update("Caps Lock OFF, Num Lock ON", 
+                                                 "Your Caps Lock key was turned off.")
+                else:
+                    self.lockNotifier.update("Caps Lock OFF, Num Lock OFF", 
+                                                 "Your Caps Lock key was turned off.")
+        #else if it is the num lock key that has been pressed.
+        elif bitChanged & NUM_LOCK_MASK:
+            if mask & NUM_LOCK_MASK:
+                self.numLockIndicatorIcon.set_from_file("%s/share/lockindicator-applet/NumLockIndicator.png"%INSTALL_PREFIX)
+                self.numLockIndicatorIcon.show()
+                if mask & CAPS_LOCK_MASK:
+                    self.lockNotifier.update("Caps Lock ON, Num Lock ON", 
+                                                 "Your Num Lock key was turned on.")
+                else:
+                    self.lockNotifier.update("Caps Lock OFF, Num Lock ON", 
+                                                 "Your Num Lock key was turned on.")
+            else:
+                self.numLockIndicatorIcon.hide()
+                if mask & CAPS_LOCK_MASK:
+                    self.lockNotifier.update("Caps Lock ON, Num Lock OFF", 
+                                                 "Your Num Lock key was turned off.")
+                else:
+                    self.lockNotifier.update("Caps Lock OFF, Num Lock OFF", 
+                                                 "Your Num Lock key was turned off.")                
+        
+        #show the notification
+        self.lockNotifier.show()
+        self.mask = mask #update self.mask with the previous mask value.
             
