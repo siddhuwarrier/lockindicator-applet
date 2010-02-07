@@ -1,6 +1,6 @@
-#configure.ac file for python-typeutils
-AC_INIT(lockindicator-applet, version-0.9-ALPHA)
-AC_SUBST(VERSION, version-0.9-ALPHA)
+#configure.ac file for lockindicator-applet
+AC_INIT(lockindicator-applet, version-1.0.0)
+AC_SUBST(VERSION, version-1.0.0)
 #check for python version 2.6. setup.py does this check as well
 #but this will tell us where python is located. This is useful for
 #the makefile

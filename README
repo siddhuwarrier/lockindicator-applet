@@ -15,6 +15,7 @@ REQUIREMENTS
 
 WHAT DOES lockindicator-applet PRODUCE
 -------------------------------------------------------------------------------
-1. Python binaries in /usr/local/bin/ (by default).
-2. Libraries in /usr//local/lib/pythonX.y/dist-packages/ (by default).
-2. Doxygenated documentation in /usr/share/doc/lockindicator-applet (refman.pdf)
+2. Python binaries in /usr/local/bin/ (by default).
+3. Libraries in /usr//local/lib/pythonX.y/dist-packages/ (by default).
+4. Doxygenated documentation in /usr/share/doc/lockindicator-applet (refman.pdf)
+5. python-keybinder. 

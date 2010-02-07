@@ -3,8 +3,8 @@
 # @date 01/02/2010
 
 #constants
-DOXYGEN_BINARY = @DOXYGEN_BINARY@
 DOXYGEN_FAILED = 2
+DOXYGEN_BINARY = @DOXYGEN_BINARY@
 DOXYGEN_FILE = Doxyfile
 PYTHON=@PYTHON@
 PREFIX=@prefix@
@@ -38,6 +38,7 @@ build-docs:
 clean:
 	rm -rf ${BUILD} ${DOXYGEN_DIR}
 	rm -f config.log config.status
+	rm Makefile
 	echo "Cleaned."
 
 uninstall:
@@ -45,5 +46,9 @@ uninstall:
 	rm -r $(PY_PKG_DIR)/typeutils
 	rm -r $(PY_PKG_DIR)/applet
 	rm -r $(PY_PKG_DIR)/xkb
+	rm -r $(PY_PKG_DIR)/lockindicator_applet*.egg-info
+	rm -r $(PREFIX)/share/doc/lockindicator-applet
+	rm -r $(PREFIX)/share/lockindicator-applet
 	#server always in same place
 	rm /usr/lib/bonobo/servers/LockIndicatorApplet.server
+	
