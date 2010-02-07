@@ -552,6 +552,7 @@ PACKAGE_URL=''
 
 ac_subst_vars='LTLIBOBJS
 LIB@&t@OBJS
+PY_PKG_DIR
 PREFIX_FLAG
 NUM_LOCK_MASK
 CAPS_LOCK_MASK
@@ -1981,12 +1982,26 @@ else
 fi
 
 #check if the user has specified a prefix
-if test $prefix
+if test "$prefix" != NONE
 then
 	PREFIX_FLAG="--prefix="$prefix
 
+	if test "$prefix" == "/usr/local"
+	then
+		PY_PKG_DIR=$prefix"/lib/python"$PYTHON_VERSION"/dist-packages"
+
+	elif test "$enable_deb_install" == "yes"
+	then
+		PY_PKG_DIR=$prefix"/lib/python"$PYTHON_VERSION"/dist-packages"
+
+	else
+		PY_PKG_DIR=$prefix"/lib/python"$PYTHON_VERSION"/site-packages"
+
+	fi
 else
 	PREFIX_FLAG=""
+
+	PY_PKG_DIR="/usr/local/lib/python"$PYTHON_VERSION"/dist-packages"
 
 fi
 

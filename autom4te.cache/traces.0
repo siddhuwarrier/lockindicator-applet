@@ -225,20 +225,24 @@ m4trace:configure.ac:41: -1- m4_pattern_allow([^CAPS_LOCK_MASK$])
 m4trace:configure.ac:50: -1- m4_pattern_allow([^NUM_LOCK_MASK$])
 m4trace:configure.ac:52: -1- m4_pattern_allow([^NUM_LOCK_MASK$])
 m4trace:configure.ac:58: -1- m4_pattern_allow([^PREFIX_FLAG$])
-m4trace:configure.ac:60: -1- m4_pattern_allow([^PREFIX_FLAG$])
-m4trace:configure.ac:66: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
+m4trace:configure.ac:61: -1- m4_pattern_allow([^PY_PKG_DIR$])
+m4trace:configure.ac:64: -1- m4_pattern_allow([^PY_PKG_DIR$])
+m4trace:configure.ac:66: -1- m4_pattern_allow([^PY_PKG_DIR$])
+m4trace:configure.ac:69: -1- m4_pattern_allow([^PREFIX_FLAG$])
+m4trace:configure.ac:70: -1- m4_pattern_allow([^PY_PKG_DIR$])
+m4trace:configure.ac:76: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
 You should run autoupdate.], [])
-m4trace:configure.ac:66: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:66: -1- m4_pattern_allow([^LTLIBOBJS$])
-m4trace:configure.ac:68: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
+m4trace:configure.ac:76: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:76: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:78: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
 You should run autoupdate.], [])
-m4trace:configure.ac:68: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:68: -1- m4_pattern_allow([^LTLIBOBJS$])
-m4trace:configure.ac:69: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
+m4trace:configure.ac:78: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:78: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:79: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
 You should run autoupdate.], [])
-m4trace:configure.ac:69: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:69: -1- m4_pattern_allow([^LTLIBOBJS$])
-m4trace:configure.ac:70: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
+m4trace:configure.ac:79: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:79: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:80: -1- _m4_warn([obsolete], [AC_OUTPUT should be used without arguments.
 You should run autoupdate.], [])
-m4trace:configure.ac:70: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:70: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:80: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:80: -1- m4_pattern_allow([^LTLIBOBJS$])

@@ -53,11 +53,21 @@ else
 fi
 
 #check if the user has specified a prefix
-if test $prefix
+if test "$prefix" != NONE
 then
 	AC_SUBST(PREFIX_FLAG, "--prefix="$prefix)
+	if test "$prefix" == "/usr/local"
+	then
+		AC_SUBST(PY_PKG_DIR, $prefix"/lib/python"$PYTHON_VERSION"/dist-packages")
+	elif test "$enable_deb_install" == "yes"
+	then
+		AC_SUBST(PY_PKG_DIR, $prefix"/lib/python"$PYTHON_VERSION"/dist-packages")
+	else
+		AC_SUBST(PY_PKG_DIR, $prefix"/lib/python"$PYTHON_VERSION"/site-packages")
+	fi
 else
 	AC_SUBST(PREFIX_FLAG, "")
+	AC_SUBST(PY_PKG_DIR, "/usr/local/lib/python"$PYTHON_VERSION"/dist-packages")
 fi
 
 #substituted flags for Make.

@@ -39,8 +39,8 @@ setup(
       data_files = [
                     ('share/doc/lockindicator-applet/',['doxygen-docs/latex/refman.pdf', 'COPYING', 
                                                'README', 'NEWS', 'AUTHORS']), #documentation
-                    ('share/lockindicator-applet/',['img/CapsLockIndicator-OFF.png', 
-                    'img/CapsLockIndicator-ON.png']), #images
+                    ('share/lockindicator-applet/',['share/lockindicator-applet/CapsLockIndicator-OFF.png', 
+                    'share/lockindicator-applet/CapsLockIndicator-ON.png']), #images
              		('/usr/lib/bonobo/servers',['servers/LockIndicatorApplet.server']) #the server.
              		#wont work unless it is in /usr/lib/bonobo/servers                                               
                     ]

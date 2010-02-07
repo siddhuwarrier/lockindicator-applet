@@ -7,11 +7,12 @@ DOXYGEN_BINARY = @DOXYGEN_BINARY@
 DOXYGEN_FAILED = 2
 DOXYGEN_FILE = Doxyfile
 PYTHON=@PYTHON@
+PREFIX=@prefix@
 BUILD = build/
 DOXYGEN_DIR = doxygen-docs/
 
 PY_FLAGS = @PREFIX_FLAG@ @DEBIAN_FLAG@
-
+PY_PKG_DIR = @PY_PKG_DIR@
 #builds code in same directory.
 build: doxygen build-docs
 	echo "###############################"
@@ -38,4 +39,11 @@ clean:
 	rm -rf ${BUILD} ${DOXYGEN_DIR}
 	rm -f config.log config.status
 	echo "Cleaned."
- 
+
+uninstall:
+	rm $(PREFIX)/bin/LockIndicatorMain.py
+	rm -r $(PY_PKG_DIR)/typeutils
+	rm -r $(PY_PKG_DIR)/applet
+	rm -r $(PY_PKG_DIR)/xkb
+	#server always in same place
+	rm /usr/lib/bonobo/servers/LockIndicatorApplet.server
