@@ -55,24 +55,25 @@ class LockIndicator:
         #Add an indicator in, and add it to the applet
         #TODO Have the icon resize with panel size changes.
         self.capsLockIndicatorIcon = gtk.Image()
+        self.capsLockIndicatorIcon.set_tooltip_text("Indicates the state of the Caps Lock key.")
         self.appletContainer.attach(self.capsLockIndicatorIcon,0,1,0,1)
         
         #set up the num lock icon
         self.numLockIndicatorIcon = gtk.Image()
-        self.numLockIndicatorIcon.hide()        
+        self.numLockIndicatorIcon.hide()
+        self.numLockIndicatorIcon.set_tooltip_text("Num Lock key on.") 
         self.appletContainer.attach(self.numLockIndicatorIcon, 1,2,0,1)
         
+        #create a notifier to display info.
+        #we shall use one notifier because Ubuntu's notification system sucks.         
+        pynotify.init("lockindicator-applet")
+        self.lockNotifier = pynotify.Notification("None", "None") #random values.
         self.applet.add(self.appletContainer)
         self.applet.show_all()        
         
         #connect the Caps and Num Lock key to a class method
         keybinder.bind("Caps_Lock", self.lockPressed)
         keybinder.bind("Num_Lock", self.lockPressed)
-        
-        #create a notifier to display info.
-        #we shall use one notifier because Ubuntu's notification system sucks.         
-        pynotify.init("lockindicator-applet")
-        self.lockNotifier = pynotify.Notification("None", "None") #random values.
         
         #set up the XKB Wrapper and get the display info
         self.xkbWrapper = XkbWrapper()
