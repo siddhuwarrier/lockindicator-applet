@@ -1,0 +1,5 @@
+setup.py
+src/applet/Constants.py
+Makefile
+configure
+img/*.png
