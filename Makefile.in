@@ -14,7 +14,7 @@ DOXYGEN_DIR = doxygen-docs/
 PY_FLAGS = @PREFIX_FLAG@ @DEBIAN_FLAG@
 PY_PKG_DIR = @PY_PKG_DIR@
 #builds code in same directory.
-build: doxygen build-docs
+build: @BUILD_DEPS@
 	echo "###############################"
 	echo "building..."
 	$(PYTHON) setup.py build

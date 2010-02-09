@@ -556,8 +556,10 @@ PY_PKG_DIR
 PREFIX_FLAG
 NUM_LOCK_MASK
 CAPS_LOCK_MASK
-DEBIAN_FLAG
 DOXYGEN_BINARY
+BUILD_DEPS
+DATA_FILES
+DEBIAN_FLAG
 pkgpyexecdir
 pyexecdir
 pkgpythondir
@@ -612,6 +614,7 @@ enable_option_checking
 enable_deb_install
 with_capslock_mask
 with_numlock_mask
+enable_doxygen_gen
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1228,6 +1231,7 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-deb-install         Enable Debian-style Python installs (into dist-packages).
+  --disable-doxygen-gen         Disable Doxygen-style comment generation.
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -1878,8 +1882,67 @@ $as_echo "$am_cv_python_pyexecdir" >&6; }
 
 
 
-#check for doxygen program
-# Extract the first word of "doxygen", so it can be a program name with args.
+
+######### USER OPTIONS ################
+#check if the user specifies a specific Doxygen config file
+@%:@ Check whether --enable-deb-install was given.
+if test "${enable_deb_install+set}" = set; then :
+  enableval=$enable_deb_install; 
+fi
+
+#check if the user specifies the caps lock mask
+
+@%:@ Check whether --with-capslock-mask was given.
+if test "${with_capslock_mask+set}" = set; then :
+  withval=$with_capslock_mask; 
+fi
+
+#check if the user specifies the num lock mask
+
+@%:@ Check whether --with-numlock-mask was given.
+if test "${with_numlock_mask+set}" = set; then :
+  withval=$with_numlock_mask; 
+fi
+
+@%:@ Check whether --enable-doxygen-gen was given.
+if test "${enable_doxygen_gen+set}" = set; then :
+  enableval=$enable_doxygen_gen; 
+fi
+
+
+########OPTION CHECKING##############
+#check if the deb-install flag has been enabled.
+if test "$enable_deb_install" == "yes"
+then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Enabling debian install..." >&5
+$as_echo "$as_me: Enabling debian install..." >&6;}
+	DEBIAN_FLAG="--install-layout=deb"
+
+else
+	DEBIAN_FLAG=""
+
+fi 
+
+if test "$enable_doxygen_gen" == "no"
+then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: Disabling Doxygen doc generation..." >&5
+$as_echo "$as_me: Disabling Doxygen doc generation..." >&6;}
+	#add the data files such that doxygen docs are missing
+	DATA_FILES="
+                    ('share/doc/lockindicator-applet/','COPYING', 
+                                               'README', 'NEWS', 'AUTHORS'), #documentation
+                    ('share/lockindicator-applet/','share/lockindicator-applet/CapsLockIndicator-OFF.png', 
+                    'share/lockindicator-applet/CapsLockIndicator-ON.png', 'share/lockindicator-applet/NumLockIndicator.png'), #images
+             		('/usr/lib/bonobo/servers','servers/LockIndicatorApplet.server') #the server.
+             		#wont work unless it is in /usr/lib/bonobo/servers                                               
+                    "
+
+     #add the build dependencies such that doxygen is missing
+     BUILD_DEPS=""
+
+else
+	#check for doxygen program
+	# Extract the first word of "doxygen", so it can be a program name with args.
 set dummy doxygen; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
@@ -1919,41 +1982,18 @@ $as_echo "no" >&6; }
 fi
 
 
+	DATA_FILES="
+                    ('share/doc/lockindicator-applet/','doxygen-docs/latex/refman.pdf', 'COPYING', 
+                                               'README', 'NEWS', 'AUTHORS'), #documentation
+                    ('share/lockindicator-applet/','share/lockindicator-applet/CapsLockIndicator-OFF.png', 
+                    'share/lockindicator-applet/CapsLockIndicator-ON.png', 'share/lockindicator-applet/NumLockIndicator.png'), #images
+             		('/usr/lib/bonobo/servers','servers/LockIndicatorApplet.server') #the server.
+             		#wont work unless it is in /usr/lib/bonobo/servers                                               
+                    "
 
-######### USER OPTIONS ################
-#check if the user specifies a specific Doxygen config file
-@%:@ Check whether --enable-deb-install was given.
-if test "${enable_deb_install+set}" = set; then :
-  enableval=$enable_deb_install; 
+	BUILD_DEPS="doxygen build-docs"
+
 fi
-
-#check if the user specifies the caps lock mask
-
-@%:@ Check whether --with-capslock-mask was given.
-if test "${with_capslock_mask+set}" = set; then :
-  withval=$with_capslock_mask; 
-fi
-
-#check if the user specifies the num lock mask
-
-@%:@ Check whether --with-numlock-mask was given.
-if test "${with_numlock_mask+set}" = set; then :
-  withval=$with_numlock_mask; 
-fi
-
-
-########OPTION CHECKING##############
-#check if the deb-install flag has been enabled.
-if test "$enable_deb_install" == "yes"
-then
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: Enabling debian install..." >&5
-$as_echo "$as_me: Enabling debian install..." >&6;}
-	DEBIAN_FLAG="--install-layout=deb"
-
-else
-	DEBIAN_FLAG=""
-
-fi 
 
 #check if the user has specified a cpas lock mask.
 if test "$with_capslock_mask" == "yes"
