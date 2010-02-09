@@ -20,7 +20,7 @@ build: @BUILD_DEPS@
 	$(PYTHON) setup.py build
 	
 #install to prefix specified
-install: doxygen build-docs
+install: @BUILD_DEPS@
 	echo "###############################"
 	echo "installing..."
 	$(PYTHON) setup.py install $(PY_FLAGS)

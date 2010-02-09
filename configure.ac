@@ -34,27 +34,27 @@ if test "$enable_doxygen_gen" == "no"
 then
 	AC_MSG_NOTICE([Disabling Doxygen doc generation...])
 	#add the data files such that doxygen docs are missing
-	AC_SUBST(DATA_FILES, "[
+	AC_SUBST(DATA_FILES, ["[
                     ('share/doc/lockindicator-applet/',['COPYING', 
                                                'README', 'NEWS', 'AUTHORS']), #documentation
                     ('share/lockindicator-applet/',['share/lockindicator-applet/CapsLockIndicator-OFF.png', 
                     'share/lockindicator-applet/CapsLockIndicator-ON.png', 'share/lockindicator-applet/NumLockIndicator.png']), #images
              		('/usr/lib/bonobo/servers',['servers/LockIndicatorApplet.server']) #the server.
              		#wont work unless it is in /usr/lib/bonobo/servers                                               
-                    ]")
+                    ]"])
      #add the build dependencies such that doxygen is missing
      AC_SUBST(BUILD_DEPS, "")
 else
 	#check for doxygen program
 	AC_PATH_PROG([DOXYGEN_BINARY], [doxygen])
-	AC_SUBST(DATA_FILES, "[
+	AC_SUBST(DATA_FILES, ["[
                     ('share/doc/lockindicator-applet/',['doxygen-docs/latex/refman.pdf', 'COPYING', 
                                                'README', 'NEWS', 'AUTHORS']), #documentation
                     ('share/lockindicator-applet/',['share/lockindicator-applet/CapsLockIndicator-OFF.png', 
                     'share/lockindicator-applet/CapsLockIndicator-ON.png', 'share/lockindicator-applet/NumLockIndicator.png']), #images
              		('/usr/lib/bonobo/servers',['servers/LockIndicatorApplet.server']) #the server.
              		#wont work unless it is in /usr/lib/bonobo/servers                                               
-                    ]")
+                    ]"])
 	AC_SUBST(BUILD_DEPS, "doxygen build-docs")
 fi
 

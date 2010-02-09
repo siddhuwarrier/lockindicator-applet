@@ -36,6 +36,8 @@ they may be different on your system. This can be done by typing
 xset q | grep LED
 in a terminal, and looking at the result.
 
+4. --disable-doxygen-docs: Disable doxygen comment generation.
+
 The Makefile uses distutils (and a wee bit of setuptools) in the background.
 
 Make options
